@@ -9,7 +9,7 @@
  * Project home:
  * https://github.com/julien-maurel/jQuery-Scanner-Detection
  *
- * Version: 1.1.2
+ * Version: 1.1.3
  *
  */
 (function($){
@@ -95,9 +95,9 @@
                 }
 
                 if(!firstCharTime){
-                    firstCharTime=e.timeStamp;
+                    firstCharTime=Date.now();
                 }
-                lastCharTime=e.timeStamp;
+                lastCharTime=Date.now();
 
                 if(testTimer) clearTimeout(testTimer);
                 if(callIsScanner){
