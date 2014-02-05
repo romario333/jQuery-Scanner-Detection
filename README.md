@@ -68,3 +68,9 @@ Event data: {string: "scanned string"}
 ###scannerDetectionReceive
 Callback after receive a char  
 Event data: {evt: {original keypress event}}
+
+
+Browser compatibility
+---------------------
+On old IE browser (IE<9), `Date.now()` and `Array.indexOf()` are not implemented.  
+If you plan to use this plugin on these browsers, please add jquery.scannerdetection.compatibility.js file before the plugin.

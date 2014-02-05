@@ -9,7 +9,7 @@
  * Project home:
  * https://github.com/julien-maurel/jQuery-Scanner-Detection
  *
- * Version: 1.1.3
+ * Version: 1.1.4
  *
  */
 (function($){
