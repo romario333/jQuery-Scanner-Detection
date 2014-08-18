@@ -8,9 +8,9 @@ How use it
 ----------
 To initialize the detection, 2 ways:
 
-    $(selector).scannerDetection(); // Initiliaze with default options
-    $(selector).scannerDetection({...}); // Initiliaze with an object that contains options
-    $(selector).scannerDetection(function(){...}); // Initiliaze with a function that is onComplete callback
+    $(selector).scannerDetection(); // Initialize with default options
+    $(selector).scannerDetection({...}); // Initialize with an object that contains options
+    $(selector).scannerDetection(function(){...}); // Initialize with a function that is onComplete callback
     
 To simulate a scanning after initialisation:
 
@@ -21,10 +21,10 @@ Options
 -------
 ###onComplete
 Default: false  
-Callback after detection of a successfull scanning
+Callback after detection of a successful scanning
 ###onError
 Default: false  
-Callback after detection of a unsuccessfull scanning (scanned string in parameter)
+Callback after detection of a unsuccessful scanning (scanned string in parameter)
 ###onReceive
 Default: false  
 Callback after receive a char (original keypress event in parameter)
@@ -60,10 +60,10 @@ Of course, events exist only if plugin is initialized on selector.
         .bind('scannerDetectionReceive',function(e,data){...})
 
 ###scannerDetectionComplete
-Callback after detection of a successfull scanning  
+Callback after detection of a successful scanning  
 Event data: {string: "scanned string"}
 ###scannerDetectionError
-Callback after detection of a unsuccessfull scanning  
+Callback after detection of a unsuccessful scanning  
 Event data: {string: "scanned string"}  
 ###scannerDetectionReceive
 Callback after receive a char  
