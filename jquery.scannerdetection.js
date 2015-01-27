@@ -42,8 +42,8 @@
 			startChar:[], // Chars to remove and means start of scanning
 			ignoreIfFocusOn: 'input', // do not handle scans if the currently focued element matches this selector
 			scanButtonKeyCode:0, // Key code of the scanner hardware button (if the scanner button a acts as a key itself) 
-			scanButtonLongPressThreshold:3, // How many times the hardware button should issue a pressed event before a barcode is read to detect a longpress, 
-            onScanButtonLongPressed:false, // Callback after receive a char (scanned string an number of times the key was pressed as parameters)
+			scanButtonLongPressThreshold:3, // How many times the hardware button should issue a pressed event before a barcode is read to detect a longpress
+            onScanButtonLongPressed:false, // Callback after detection of a successfull scan while the scan button was pressed and held down
             stopPropagation:false, // Stop immediate propagation on keypress event
             preventDefault:false // Prevent default action on keypress event
         };
