@@ -42,12 +42,12 @@ Wait duration (ms) after keypress event to check if scanning is finished
 Default: 30  
 Average time (ms) between 2 chars. Used to do difference between keyboard typing and scanning
 ###minLength
-Default: :6  
+Default: 6  
 Minimum length for a scanning
 ###endChar
 Default: [9,13]  
 Chars to remove and means end of scanning
-###startChar:
+###startChar
 Default: []  
 Chars to remove and means start of scanning
 ###ignoreIfFocusOn
