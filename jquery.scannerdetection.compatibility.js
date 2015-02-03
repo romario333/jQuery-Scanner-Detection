@@ -9,7 +9,7 @@
  * Project home:
  * https://github.com/julien-maurel/jQuery-Scanner-Detection
  *
- * Version: 1.1.4
+ * Version: 1.2.0
  *
  * Implement some functions that not exist on old IE browser (IE<9)
  */

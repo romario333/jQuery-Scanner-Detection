@@ -1,3 +1,6 @@
+1.2.0
+  Add options startChar, ignoreIfFocusOn, scanButtonKeyCode, scanButtonLongPressThreshold
+
 1.1.4
   Add script to extend compatibility to IE<9
 
