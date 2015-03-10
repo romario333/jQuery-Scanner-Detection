@@ -23,13 +23,13 @@
             return this;
         }
 		
-	// If false (boolean) given, deinitialize plugin
-	if(options === false){
-	    this.each(function(){
-		    this.scannerDetectionOff();
-	    });
-	    return this;
-	}
+	    // If false (boolean) given, deinitialize plugin
+	    if(options === false){
+	        this.each(function(){
+	    	    this.scannerDetectionOff();
+	        });
+	        return this;
+	    }
 
         var defaults={
             onComplete:false, // Callback after detection of a successfull scanning (scanned string in parameter)
