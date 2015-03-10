@@ -51,11 +51,11 @@ Chars to remove and means end of scanning
 Default: []  
 Chars to remove and means start of scanning
 ###ignoreIfFocusOn
-Default: 'input'  
-Ignore scans if the currently focued element matches this selector. This is usefull to let the focused control handle the input by itself. By default, scanner detection is disabled if an input is focused when the scan occurs. The scanned string will be inserted in the input in this case.  For example, if your default action is searching in a list of products for the scanned SKU, you might also have a form to create a new product with an input field for the SKU. If the user sets focus to this field, the scanned code will just be inserted into it and not used for searchig.
+Default: false  
+Ignore scans if the currently focused element matches this selector. Per example, if you set this option to 'input', scanner detection will be disable if an input is focused, when the scan occurs.
 ###scanButtonKeyCode
 Default: 0  
-Key code of the scanner hardware button (if the scanner button a acts as a key itself). Knowing this key code is important, becaus it is not part oft the scanned code and must be ignored. On the other hand, knowing it can be usefull: pressing the button multiple times fast normally results just in one scan, but you still could count the number of times pressed, allowing the user to input quantities this way (typical use case would be counting product at goods-in). 
+Key code of the scanner hardware button (if the scanner button a acts as a key itself). Knowing this key code is important, because it is not part of the scanned code and must be ignored. On the other hand, knowing it can be usefull: pressing the button multiple times fast normally results just in one scan, but you still could count the number of times pressed, allowing the user to input quantities this way (typical use case would be counting product at goods-in). 
 ###scanButtonLongPressThreshold
 Default: 3  
 You can let the user perform some special action by pressing and holding the scan button. In this case the button will issue multiple keydown events. This parameter sets, how many sequential events should be interpreted as holding the button down.  
