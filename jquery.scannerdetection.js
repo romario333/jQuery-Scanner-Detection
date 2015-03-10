@@ -34,14 +34,15 @@
         var defaults={
             onComplete:false, // Callback after detection of a successfull scanning (scanned string in parameter)
             onError:false, // Callback after detection of a unsuccessfull scanning (scanned string in parameter)
-            onReceive:false, // Callback after receive a char (scanned char in parameter)
-	        timeBeforeScanTest:100, // Wait duration (ms) after keypress event to check if scanning is finished
+            onReceive:false, // Callback after receiving and processing a char (scanned char in parameter)
+            onKeyDetect:false, // Callback after detecting a keyDown (key char in parameter) - in contrast to onReceive, this fires for non-character keys like tab, arrows, etc. too!
+            timeBeforeScanTest:100, // Wait duration (ms) after keypress event to check if scanning is finished
             avgTimeByChar:30, // Average time (ms) between 2 chars. Used to do difference between keyboard typing and scanning
             minLength:6, // Minimum length for a scanning
             endChar:[9,13], // Chars to remove and means end of scanning
 	        startChar:[], // Chars to remove and means start of scanning
 	        ignoreIfFocusOn:false, // do not handle scans if the currently focused element matches this selector
-	        scanButtonKeyCode:0, // Key code of the scanner hardware button (if the scanner button a acts as a key itself) 
+	        scanButtonKeyCode:false, // Key code of the scanner hardware button (if the scanner button a acts as a key itself) 
 	        scanButtonLongPressThreshold:3, // How many times the hardware button should issue a pressed event before a barcode is read to detect a longpress
             onScanButtonLongPressed:false, // Callback after detection of a successfull scan while the scan button was pressed and held down
             stopPropagation:false, // Stop immediate propagation on keypress event
@@ -108,7 +109,7 @@
             }
             $self.data('scannerDetection',{options:options}).unbind('.scannerDetection').bind('keydown.scannerDetection',function(e){
 			    // If it's just the button of the scanner, ignore it and wait for the real input
-		        if(options.scanButtonKeyCode && e.which==options.scanButtonKeyCode) {
+		        if(options.scanButtonKeyCode !== false && e.which==options.scanButtonKeyCode) {
                     scanButtonCounter++;
                     // Cancel default
                     e.preventDefault();
@@ -126,6 +127,10 @@
                     e.preventDefault();
                     e.stopImmediatePropagation();
                 }
+                // Fire keyDetect event in any case!
+                if(options.onKeyDetect) options.onKeyDetect.call(self,e);
+                $self.trigger('scannerDetectionKeyDetect',{evt:e});
+				
             }).bind('keypress.scannerDetection',function(e){
 		        if (this.isFocusOnIgnoredElement()) return;
                 if(options.stopPropagation) e.stopImmediatePropagation();
@@ -140,7 +145,9 @@
                     e.stopImmediatePropagation();
 		            callIsScanner=false;
 		        }else{
-                    stringWriting+=String.fromCharCode(e.which);
+                    if (typeof(e.which) != 'undefined'){
+                        stringWriting+=String.fromCharCode(e.which);
+                    }
                     callIsScanner=false;
                 }
 

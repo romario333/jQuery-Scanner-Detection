@@ -31,10 +31,14 @@ Default: false
 Callback after detection of a unsuccessful scanning (scanned string in parameter)
 ###onReceive
 Default: false  
-Callback after receive a char (original keypress event in parameter)
+Callback after receiving and processing a char (scanned char in parameter)
+###onKeyDetect
+Default: false  
+Callback after detecting a keyDown (key char in parameter) - in contrast to onReceive, this fires for non-character keys like tab, arrows, etc. too!
 ###onScanButtonLongPressed
 Default: false  
 Callback after detection of a successfull scan while the scan button was pressed and held down. This can only be used if the scan button behaves as a key itself (see scanButtonKeyCode). This long press event can be used to add a secondary action. For example, if the primary action is to count some items with barcodes (e.g. products at goods-in), it is comes very handy if a number pad pops up on the screen when the scan button is held. Large number can then be easily typed it instead of scanning fifty times in a row. 
+Note: this option requires scanButtonKeyCode to be set to a valid key code!
 ###timeBeforeScanTest
 Default: 100  
 Wait duration (ms) after keypress event to check if scanning is finished
@@ -54,7 +58,7 @@ Chars to remove and means start of scanning
 Default: false  
 Ignore scans if the currently focused element matches this selector. Per example, if you set this option to 'input', scanner detection will be disable if an input is focused, when the scan occurs.
 ###scanButtonKeyCode
-Default: 0  
+Default: false  
 Key code of the scanner hardware button (if the scanner button a acts as a key itself). Knowing this key code is important, because it is not part of the scanned code and must be ignored. On the other hand, knowing it can be usefull: pressing the button multiple times fast normally results just in one scan, but you still could count the number of times pressed, allowing the user to input quantities this way (typical use case would be counting product at goods-in). 
 ###scanButtonLongPressThreshold
 Default: 3  
@@ -85,9 +89,15 @@ Event data: {string: "scanned string"}
 Callback after detection of a unsuccessful scanning  
 Event data: {string: "scanned string"}  
 ###scannerDetectionReceive
-Callback after receive a char  
+Callback after receive and process a char  
+Event data: {evt: {original keypress event}}
+###scannerDetectionKeyDetect
+Callback after detecting a keyDown - in contrast to onReceive, this fires for non-character keys like tab, arrows, etc. too!
 Event data: {evt: {original keypress event}}
 
+Requirements
+------------
+jQuery > 1.4.4. Note, that some odd side effects may occur before version 1.6, if your event handlers rely on using the event object (for example calling e.which from within the onKeyDetect handler).
 
 Browser compatibility
 ---------------------
