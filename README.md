@@ -19,6 +19,8 @@ To simulate a scanning after initialisation:
 To disable the detection (deinitialize):
 
     $(selector).scannerDetection(false);
+	
+See a detailed tutorial with presets for different scanner models and first steps to take when starting [here](http://a.kabachnik.info/jquery-scannerdetection-tutorial.html).
 
 
 Options
