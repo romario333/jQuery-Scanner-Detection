@@ -51,29 +51,12 @@
             preventDefault: false // Prevent default action on keydown event
         }, options || {});
 
-        function getCharacter(e) {
-            /*** Convert to Char Code ***/
+        function getCharacterFromEvent(e) {
             var code = e.which;
 
-            //Ignore Shift Key events & arrows
-            var ignoredCodes = {
-                16: true,
-                37: true,
-                38: true,
-                39: true,
-                40: true,
-                20: true,
-                17: true,
-                18: true,
-                91: true
-            };
-
-            if(ignoredCodes[code] === true) {
-                return false;
-            }
-
-            //These are special cases that don't fit the ASCII mapping
+            // These are special cases that don't fit the ASCII mapping
             var exceptions = {
+                32: ' '.charCodeAt(0),
                 186: 59, // ;
                 187: 61, // =
                 188: 44, // ,
@@ -95,16 +78,27 @@
                 102: '6'.charCodeAt(0),
                 103: '7'.charCodeAt(0),
                 104: '8'.charCodeAt(0),
-                105: '9'.charCodeAt(0)
+                105: '9'.charCodeAt(0),
+                106: '*'.charCodeAt(0),
+                107: '+'.charCodeAt(0),
+                109: '-'.charCodeAt(0),
+                110: '.'.charCodeAt(0),
+                111: '/'.charCodeAt(0)
             };
 
-            if(exceptions[code] !== undefined) {
-                code = exceptions[code];
+
+            // Filter out non-alphanumeric key codes unless they're one of the exceptions
+            if(code < 48 || code > 90) {
+                if(exceptions[code] !== undefined) {
+                    code = exceptions[code];
+                } else {
+                    return null
+                }
             }
 
             var ch = String.fromCharCode(code);
 
-            /*** Handle Shift ***/
+            // If shifted translate characters, otherwise make lowercase
             if(e.shiftKey) {
                 var special = {
                     1: '!',
@@ -133,14 +127,13 @@
                 if(special[ch] !== undefined) {
                     ch = special[ch];
                 }
-            }
-            else {
+            } else {
                 ch = ch.toLowerCase();
             }
             return ch;
         }
 
-        this.each(function() {
+        return this.each(function() {
             var self = this,
                 $self = $(self),
                 firstCharTime = 0,
@@ -216,19 +209,23 @@
             $self.unbind('.scannerDetection');
 
             $self.bind('keydown.scannerDetection', function(e) {
+
+                if (this.isFocusOnIgnoredElement()) {
+                    return;
+                }
+
                 // If it's just the button of the scanner, ignore it and wait for the real input
                 if(settings.scanButtonKeyCode !== null && e.which === settings.scanButtonKeyCode) {
                     scanButtonCounter++;
                     e.preventDefault();
                     e.stopImmediatePropagation();
-                }
 
-                settings.onKeyDetect.call(self,e);
-                $self.trigger('scannerDetectionKeyDetect',{evt:e});
-
-                if (this.isFocusOnIgnoredElement()) {
+                    settings.onKeyDetect.call(self,e);
+                    $self.trigger('scannerDetectionKeyDetect',{evt:e});
                     return;
                 }
+
+
 
                 if (settings.stopPropagation) {
                     e.stopImmediatePropagation();
@@ -239,23 +236,24 @@
                 }
 
                 // If it's not the first character and we encounter a terminating character, trigger scan process
-                if (firstCharTime && settings.endChar.indexOf(e.which) !== -1){
+                if (firstCharTime && settings.endChar.indexOf(e.which) !== -1) {
                     e.preventDefault();
                     e.stopImmediatePropagation();
                     callIsScanner = true;
 
                 // If it's the first character and we encountered one of the starting characters, don't process the scan
-                } else if(!firstCharTime && settings.startChar.indexOf(e.which) !== -1){
+                } else if(!firstCharTime && settings.startChar.indexOf(e.which) !== -1) {
                     e.preventDefault();
                     e.stopImmediatePropagation();
                     callIsScanner = false;
 
                 // Otherwise, just add the character to the scan string we're building
                 } else {
-                    var character = getCharacter(e);
-                    if (character !== false){
-                        stringWriting += character;
+                    var character = getCharacterFromEvent(e);
+                    if (character === null) {
+                        return;
                     }
+                    stringWriting += character;
                     callIsScanner = false;
                 }
 
@@ -271,15 +269,14 @@
 
                 if (callIsScanner) {
                     self.scannerDetectionTest();
-                    testTimer=false;
+                    testTimer = false;
                 } else {
-                    testTimer=setTimeout(self.scannerDetectionTest,settings.timeBeforeScanTest);
+                    testTimer = setTimeout(self.scannerDetectionTest,settings.timeBeforeScanTest);
                 }
 
                 settings.onReceive.call(self,e);
                 $self.trigger('scannerDetectionReceive',{evt:e});
             });
         });
-        return this;
     }
 })(jQuery);
