@@ -237,8 +237,10 @@
 
                 // If it's not the first character and we encounter a terminating character, trigger scan process
                 if (firstCharTime && settings.endChar.indexOf(e.which) !== -1) {
-                    e.preventDefault();
-                    e.stopImmediatePropagation();
+                    // do not prevent default for enter and key, I don't see why it's needed and it's actually hurtful as it blocks valid events done by user
+                    // (typically enter or tab that quickly follows some typing)
+                    // e.preventDefault();
+                    // e.stopImmediatePropagation();
                     callIsScanner = true;
 
                 // If it's the first character and we encountered one of the starting characters, don't process the scan
