@@ -52,6 +52,12 @@
         }, options || {});
 
         function getCharacterFromEvent(e) {
+            // workaround for https://github.com/octalmage/robotjs/issues/391
+            if (e.originalEvent.code === "KeyA" && e.originalEvent.key.toLowerCase() !== "a") {
+                return e.originalEvent.key;
+            }
+
+
             var code = e.which;
 
             // These are special cases that don't fit the ASCII mapping
